@@ -3,6 +3,7 @@
 
 import express from "express";
 import dotenv from "dotenv";
+import authRoutes from "./routes/auth.route.js";
 
 // dotenv is a zero-dependency module that loads environment variables from a .env file into process.env.
 dotenv.config();
@@ -11,15 +12,19 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// we also need a listen method to start the server
+// add Auth Route
+
+app.use("/api/auth", authRoutes);
+
+// we also need a listen method to start the server for the app to listen on a specific port
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
 
-// TESTING THE SERVER
-// send response to the client HELLO WORLD
+// // TESTING THE SERVER
+// // send response to the client HELLO WORLD
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World");
+// });
