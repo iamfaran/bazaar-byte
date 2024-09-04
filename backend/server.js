@@ -4,6 +4,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.route.js";
+import { connectDB } from "./lib/db.js";
 
 // dotenv is a zero-dependency module that loads environment variables from a .env file into process.env.
 dotenv.config();
@@ -20,6 +21,7 @@ app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
+  connectDB();
 });
 
 // // TESTING THE SERVER
