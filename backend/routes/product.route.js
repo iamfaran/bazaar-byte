@@ -1,5 +1,8 @@
 import express from "express";
-import { getAllProducts } from "../controllers/product.controller.js";
+import {
+  getAllProducts,
+  getFeaturedProducts,
+} from "../controllers/product.controller.js";
 import { protectRoute, adminRoute } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
@@ -12,5 +15,9 @@ const router = express.Router();
 // and last param will always the main function which will be executed when the path is hit
 
 router.get("/", protectRoute, adminRoute, getAllProducts);
+
+// below route will be accessible to all users so we don't need to protect it hence no middleware (protectRoute) is passed
+
+router.get("/featured", getFeaturedProducts);
 
 export default router;
