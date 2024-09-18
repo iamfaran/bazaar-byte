@@ -1,5 +1,5 @@
-import Product from "../models/product.model";
-import { redis } from "../lib/redis";
+import Product from "../models/product.model.js";
+import { redis } from "../lib/redis.js";
 
 export const getAllProducts = async (req, res) => {
   // for now I am just testing this route
