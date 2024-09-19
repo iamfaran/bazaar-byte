@@ -5,6 +5,8 @@ import {
   getAllProducts,
   getFeaturedProducts,
   getRecommendedProducts,
+  getProductsByCategory,
+  toggleFeaturedProduct,
 } from "../controllers/product.controller.js";
 import { protectRoute, adminRoute } from "../middleware/auth.middleware.js";
 
@@ -33,5 +35,11 @@ router.delete("/:id", protectRoute, adminRoute, deleteProduct);
 
 // get recommended products
 router.get("/recommendations", getRecommendedProducts);
+
+// get products by category
+router.get("/category/:category", getProductsByCategory);
+
+// toggle featured product
+router.patch("/:id", protectRoute, adminRoute, toggleFeaturedProduct);
 
 export default router;
