@@ -8,6 +8,7 @@ import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
 import productRoutes from "./routes/product.route.js";
 import cartRoutes from "./routes/cart.route.js";
+import couponRoutes from "./routes/coupon.route.js";
 
 // dotenv is a zero-dependency module that loads environment variables from a .env file into process.env.
 dotenv.config();
@@ -34,6 +35,10 @@ app.use("/api/products", productRoutes);
 // Cart Routes
 
 app.use("/api/cart", cartRoutes);
+
+// Coupon Routes
+
+app.use("/api/coupons", couponRoutes);
 
 // we also need a listen method to start the server for the app to listen on a specific port
 
