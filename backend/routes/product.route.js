@@ -20,4 +20,8 @@ router.get("/", protectRoute, adminRoute, getAllProducts);
 
 router.get("/featured", getFeaturedProducts);
 
+// create a new route for create product
+
+router.post("/", protectRoute, adminRoute, createProduct);
+
 export default router;
