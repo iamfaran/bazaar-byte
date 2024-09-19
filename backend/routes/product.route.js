@@ -1,5 +1,7 @@
 import express from "express";
 import {
+  createProduct,
+  deleteProduct,
   getAllProducts,
   getFeaturedProducts,
 } from "../controllers/product.controller.js";
@@ -23,5 +25,9 @@ router.get("/featured", getFeaturedProducts);
 // create a new route for create product
 
 router.post("/", protectRoute, adminRoute, createProduct);
+
+// create a new route for delete product
+
+router.delete("/:id", protectRoute, adminRoute, deleteProduct);
 
 export default router;

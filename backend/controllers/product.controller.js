@@ -1,5 +1,6 @@
 import Product from "../models/product.model.js";
 import { redis } from "../lib/redis.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const getAllProducts = async (req, res) => {
   // for now I am just testing this route
@@ -46,6 +47,70 @@ export const getFeaturedProducts = async (req, res) => {
 
     // Send a 500 (Internal Server Error) response with an error message
     // Including error.message can be helpful for debugging but might expose sensitive info in production
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// This function is an asynchronous Express route handler for creating a new product
+
+export const createProduct = async (req, res) => {
+  try {
+    const { name, description, price, image, category } = req.body;
+
+    let cloudinaryResponse = null;
+
+    if (image) {
+      cloudinaryResponse = await cloudinary.uploader.upload(image, {
+        folder: "products",
+      });
+    }
+
+    const product = await Product.create({
+      name,
+      description,
+      price,
+      image: cloudinaryResponse?.secure_url
+        ? cloudinaryResponse.secure_url
+        : "",
+      category,
+    });
+
+    res.status(201).json(product);
+  } catch (error) {
+    console.log("Error in createProduct controller", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// This function is an asynchronous Express route handler for deleting a product
+
+export const deleteProduct = async (req, res) => {
+  try {
+    // Find the product by ID in the database
+    const product = await Product.findById(req.params.id);
+
+    // If the product is not found, send a 404 (Not Found) response with an error message
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // If the product has an image, extract the public ID from the URL
+    if (product.image) {
+      const publicId = product.image.split("/").pop().split(".")[0];
+      try {
+        // Attempt to delete the image from Cloudinary using the public ID
+        await cloudinary.uploader.destroy(`products/${publicId}`);
+        console.log("deleted image from cloduinary");
+      } catch (error) {
+        console.log("error deleting image from cloduinary", error);
+      }
+    }
+    // Delete the product from the database
+    await Product.findByIdAndDelete(req.params.id);
+
+    res.json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.log("Error in deleteProduct controller", error.message);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
