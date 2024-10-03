@@ -3,9 +3,13 @@ import { redis } from "../lib/redis.js";
 import cloudinary from "../lib/cloudinary.js";
 
 export const getAllProducts = async (req, res) => {
-  // for now I am just testing this route
-  // so just send a response with a message that allProducts route is working
-  res.json({ message: "All Products route is working" });
+  try {
+    const products = await Product.find({}); // find all products
+    res.json({ products });
+  } catch (error) {
+    console.log("Error in getAllProducts controller", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 };
 
 // This function is an asynchronous Express route handler for getting featured products
