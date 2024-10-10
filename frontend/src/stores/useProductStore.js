@@ -5,6 +5,7 @@ import axios from "../lib/axios";
 export const useProductStore = create((set) => ({
   products: [],
   loading: false,
+  categoryProducts: [],
 
   setProducts: (products) => set({ products }),
   createProduct: async (productData) => {
@@ -34,7 +35,8 @@ export const useProductStore = create((set) => ({
     set({ loading: true });
     try {
       const response = await axios.get(`/products/category/${category}`);
-      set({ products: response.data.products, loading: false });
+      console.log("response", response);
+      set({ categoryProducts: response.data.products, loading: false });
     } catch (error) {
       set({ error: "Failed to fetch products", loading: false });
       toast.error(error.response.data.error || "Failed to fetch products");
