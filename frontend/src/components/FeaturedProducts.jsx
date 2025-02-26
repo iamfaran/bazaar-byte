@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
 import { useCartStore } from "../stores/useCartStore";
+import { motion } from "framer-motion";
 
 const FeaturedProducts = ({ featuredProducts }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -33,10 +34,10 @@ const FeaturedProducts = ({ featuredProducts }) => {
   const isEndDisabled = currentIndex >= featuredProducts.length - itemsPerPage;
 
   return (
-    <div className="py-12">
+    <div className="py-12 bg-background">
       <div className="container mx-auto px-4">
-        <h2 className="text-center text-5xl sm:text-6xl font-bold text-emerald-400 mb-4">
-          Featured
+        <h2 className="text-center text-5xl sm:text-6xl font-bold text-accent mb-8">
+          Featured Picks
         </h2>
         <div className="relative">
           <div className="overflow-hidden">
@@ -49,36 +50,41 @@ const FeaturedProducts = ({ featuredProducts }) => {
               }}
             >
               {featuredProducts?.map((product) => (
-                <div
+                <motion.div
                   key={product._id}
                   className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 flex-shrink-0 px-2"
+                  whileHover={{ scale: 1.03 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden h-full transition-all duration-300 hover:shadow-xl border border-emerald-500/30">
-                    <div className="overflow-hidden">
+                  <div className="bg-surface rounded-xl shadow-glow h-full flex flex-col overflow-hidden group">
+                    {/* Image */}
+                    <div className="h-40 overflow-hidden">
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="w-full h-48 object-cover transition-transform duration-300 ease-in-out hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
                       />
                     </div>
-                    <div className="p-4">
-                      <h3 className="text-lg font-semibold mb-2 text-white">
-                        {product.name}
-                      </h3>
-                      <p className="text-emerald-300 font-medium mb-4">
-                        ${product.price.toFixed(2)}
-                      </p>
+                    {/* Info */}
+                    <div className="p-4 flex flex-col flex-grow justify-between">
+                      <div>
+                        <h3 className="text-lg font-semibold text-text mb-1">
+                          {product.name}
+                        </h3>
+                        <p className="text-accent font-medium">
+                          ${product.price.toFixed(2)}
+                        </p>
+                      </div>
                       <button
                         onClick={() => addToCart(product)}
-                        className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 px-4 rounded transition-colors duration-300 
-												flex items-center justify-center"
+                        className="mt-4 w-full bg-primary hover:bg-secondary text-text font-semibold py-2 px-4 rounded-xl transition-colors duration-300 flex items-center justify-center"
                       >
                         <ShoppingCart className="w-5 h-5 mr-2" />
                         Add to Cart
                       </button>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -87,20 +93,19 @@ const FeaturedProducts = ({ featuredProducts }) => {
             disabled={isStartDisabled}
             className={`absolute top-1/2 -left-4 transform -translate-y-1/2 p-2 rounded-full transition-colors duration-300 ${
               isStartDisabled
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-emerald-600 hover:bg-emerald-500"
+                ? "bg-surface/50 cursor-not-allowed text-text/50"
+                : "bg-primary hover:bg-secondary text-text"
             }`}
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
-
           <button
             onClick={nextSlide}
             disabled={isEndDisabled}
             className={`absolute top-1/2 -right-4 transform -translate-y-1/2 p-2 rounded-full transition-colors duration-300 ${
               isEndDisabled
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-emerald-600 hover:bg-emerald-500"
+                ? "bg-surface/50 cursor-not-allowed text-text/50"
+                : "bg-primary hover:bg-secondary text-text"
             }`}
           >
             <ChevronRight className="w-6 h-6" />
@@ -110,4 +115,5 @@ const FeaturedProducts = ({ featuredProducts }) => {
     </div>
   );
 };
+
 export default FeaturedProducts;
