@@ -44,32 +44,27 @@ const CreateProductForm = () => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-
       reader.onloadend = () => {
         setNewProduct({ ...newProduct, image: reader.result });
       };
-
       reader.readAsDataURL(file); // base64
     }
   };
 
   return (
     <motion.div
-      className="bg-gray-800 shadow-lg rounded-lg p-8 mb-8 max-w-xl mx-auto"
+      className="bg-surface shadow-glow rounded-xl p-8 mb-8 max-w-xl mx-auto border border-primary/20"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
-      <h2 className="text-2xl font-semibold mb-6 text-emerald-300">
+      <h2 className="text-2xl font-semibold mb-6 text-accent">
         Create New Product
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-300"
-          >
+          <label htmlFor="name" className="block text-sm font-medium text-text">
             Product Name
           </label>
           <input
@@ -80,9 +75,7 @@ const CreateProductForm = () => {
             onChange={(e) =>
               setNewProduct({ ...newProduct, name: e.target.value })
             }
-            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2
-						 px-3 text-white focus:outline-none focus:ring-2
-						focus:ring-emerald-500 focus:border-emerald-500"
+            className="mt-1 block w-full bg-background border border-primary/30 rounded-lg shadow-sm py-2 px-3 text-text placeholder-text/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-300"
             required
           />
         </div>
@@ -90,7 +83,7 @@ const CreateProductForm = () => {
         <div>
           <label
             htmlFor="description"
-            className="block text-sm font-medium text-gray-300"
+            className="block text-sm font-medium text-text"
           >
             Description
           </label>
@@ -102,9 +95,7 @@ const CreateProductForm = () => {
               setNewProduct({ ...newProduct, description: e.target.value })
             }
             rows="3"
-            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm
-						 py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 
-						 focus:border-emerald-500"
+            className="mt-1 block w-full bg-background border border-primary/30 rounded-lg shadow-sm py-2 px-3 text-text placeholder-text/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-300"
             required
           />
         </div>
@@ -112,7 +103,7 @@ const CreateProductForm = () => {
         <div>
           <label
             htmlFor="price"
-            className="block text-sm font-medium text-gray-300"
+            className="block text-sm font-medium text-text"
           >
             Price
           </label>
@@ -125,9 +116,7 @@ const CreateProductForm = () => {
               setNewProduct({ ...newProduct, price: e.target.value })
             }
             step="0.01"
-            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm 
-						py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500
-						 focus:border-emerald-500"
+            className="mt-1 block w-full bg-background border border-primary/30 rounded-lg shadow-sm py-2 px-3 text-text placeholder-text/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-300"
             required
           />
         </div>
@@ -135,7 +124,7 @@ const CreateProductForm = () => {
         <div>
           <label
             htmlFor="category"
-            className="block text-sm font-medium text-gray-300"
+            className="block text-sm font-medium text-text"
           >
             Category
           </label>
@@ -146,9 +135,7 @@ const CreateProductForm = () => {
             onChange={(e) =>
               setNewProduct({ ...newProduct, category: e.target.value })
             }
-            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md
-						 shadow-sm py-2 px-3 text-white focus:outline-none 
-						 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+            className="mt-1 block w-full bg-background border border-primary/30 rounded-lg shadow-sm py-2 px-3 text-text focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-300"
             required
           >
             <option value="">Select a category</option>
@@ -170,21 +157,21 @@ const CreateProductForm = () => {
           />
           <label
             htmlFor="image"
-            className="cursor-pointer bg-gray-700 py-2 px-3 border border-gray-600 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-300 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+            className="cursor-pointer bg-background py-2 px-4 border border-primary/30 rounded-lg shadow-sm text-sm font-medium text-text hover:bg-primary focus:outline-none focus:ring-2 focus:ring-accent transition-colors duration-300"
           >
             <Upload className="h-5 w-5 inline-block mr-2" />
             Upload Image
           </label>
           {newProduct.image && (
-            <span className="ml-3 text-sm text-gray-400">Image uploaded </span>
+            <span className="ml-3 text-sm text-text/70">Image uploaded</span>
           )}
         </div>
 
-        <button
+        <motion.button
           type="submit"
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md 
-					shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 
-					focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50"
+          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-text bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 disabled:opacity-50"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           disabled={loading}
         >
           {loading ? (
@@ -201,9 +188,10 @@ const CreateProductForm = () => {
               Create Product
             </>
           )}
-        </button>
+        </motion.button>
       </form>
     </motion.div>
   );
 };
+
 export default CreateProductForm;
